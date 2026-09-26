@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Login — CareConnect{% endblock %}
+{% block content %}
+<section class="auth-page">
+<div class="auth-card">
+  <div class="auth-icon">🔐</div>
+  <h1>Welcome back</h1><p>Login to your CareConnect account.</p>
+  <div class="role-tabs">
+    <a class="{{ 'active' if role=='patient' }}" href="{{ url_for('login',role='patient') }}">Patient</a>
+    <a class="{{ 'active' if role=='doctor' }}" href="{{ url_for('login',role='doctor') }}">Doctor</a>
+    <a class="{{ 'active' if role=='admin' }}" href="{{ url_for('login',role='admin') }}">Admin</a>
+  </div>
+  <form method="post" data-validate="login">
+    <input type="hidden" name="role" value="{{ role }}">
+    <label>Email address</label><input type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+    <label>Password</label><div class="password-wrap"><input type="password" name="password" id="loginPassword" required placeholder="Enter your password"><button type="button" onclick="togglePassword('loginPassword',this)">Show</button></div>
+    <button class="btn btn-primary full btn-lg" type="submit">Login</button>
+  </form>
+  <p class="auth-bottom">Don't have an account? <a href="{{ url_for('register',role='doctor' if role=='doctor' else 'patient') }}">Create account</a></p>
+  {% if role=='admin' %}<div class="demo-box"><b>Demo admin</b><br>admin@careconnect.com<br>Admin@123</div>{% endif %}
+</div>
+</section>
+{% endblock %}

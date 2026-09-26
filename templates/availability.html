@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Availability — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">SCHEDULE</div><h1>Doctor availability</h1><p>Add dates and time ranges patients can book.</p></div></div>
+<div class="two-col"><section class="panel"><h2>Add availability</h2><form method="post"><label>Date</label><input type="date" name="available_date" min="{{ today }}" required><label>Start time</label><input type="time" name="start_time" required><label>End time</label><input type="time" name="end_time" required><button class="btn btn-primary full">Add Slot</button></form></section><section class="panel"><h2>Upcoming slots</h2>{% for a in availability %}<div class="list-row"><b>{{ a.available_date }}</b><span>{{ a.start_time }} — {{ a.end_time }}</span><form method="post" action="{{ url_for('delete_availability',item_id=a.id) }}"><button class="btn btn-danger small">Remove</button></form></div>{% else %}<div class="empty">No availability added.</div>{% endfor %}</section></div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">APPOINTMENT BOOKING</div><h1>Book with {{ doctor.name }}</h1><p>{{ doctor.specialization }} · {{ doctor.hospital }} · {{ doctor.location }}</p></div></div>
+<div class="two-col booking">
+<section class="panel"><h2>Doctor details</h2><div class="profile-card"><div class="avatar xl">{{ doctor.name[3:4] }}</div><h3>{{ doctor.name }}</h3><span class="tag">{{ doctor.specialization }}</span><p>{{ doctor.qualification }}<br>{{ doctor.experience }} years experience</p><p>🏥 {{ doctor.hospital }}<br>📍 {{ doctor.location }}</p></div></section>
+<section class="panel"><h2>Choose appointment</h2><form method="post" id="bookingForm"><label>Appointment date *</label><input type="date" name="appointment_date" min="{{ today }}" required><label>Appointment time *</label><select name="appointment_time" required><option value="">Select a time</option>{% for a in availability %}<option value="{{ a.start_time }}">{{ a.available_date }} — {{ a.start_time }} to {{ a.end_time }}</option>{% endfor %}</select><label>Reason / symptoms (optional)</label><textarea name="reason" rows="4" placeholder="Briefly describe the reason for your visit"></textarea><div class="notice">Only times added by the doctor are accepted. A slot already booked cannot be booked again.</div><button class="btn btn-primary full btn-lg">Confirm Appointment</button></form></section>
+</div>
+{% endblock %}

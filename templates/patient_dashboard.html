@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">PATIENT PORTAL</div><h1>Good to see you, {{ session.name }} 👋</h1><p>Manage your healthcare from one dashboard.</p></div><a class="btn btn-primary" href="{{ url_for('doctors') }}">Find a Doctor</a></div>
+<div class="quick-grid">
+<a href="{{ url_for('doctors') }}" class="quick"><b>🔎</b><span>Find Doctors</span><small>Search verified doctors</small></a>
+<a href="{{ url_for('patient_appointments') }}" class="quick"><b>📅</b><span>Appointments</span><small>View your bookings</small></a>
+<a href="{{ url_for('patient_prescriptions') }}" class="quick"><b>💊</b><span>Prescriptions</span><small>View medicines</small></a>
+<a href="{{ url_for('reminders') }}" class="quick"><b>🔔</b><span>Reminders</span><small>Medicine schedule</small></a>
+</div>
+<div class="two-col">
+<section class="panel"><div class="panel-head"><h2>Recent appointments</h2><a href="{{ url_for('patient_appointments') }}">View all</a></div>
+{% if appointments %}<div class="table-wrap"><table><tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr>{% for a in appointments %}<tr><td><b>{{ a.doctor_name }}</b><small>{{ a.specialization }}</small></td><td>{{ a.appointment_date }}</td><td>{{ a.appointment_time }}</td><td><span class="status {{ a.status|lower }}">{{ a.status }}</span></td></tr>{% endfor %}</table></div>{% else %}<div class="empty">No appointments yet.</div>{% endif %}</section>
+<section class="panel"><div class="panel-head"><h2>Latest prescriptions</h2><a href="{{ url_for('patient_prescriptions') }}">View all</a></div>
+{% if prescriptions %}{% for p in prescriptions %}<div class="list-row"><b>{{ p.diagnosis or 'Prescription' }}</b><small>Dr. {{ p.doctor_name }} · {{ p.duration_days }} days</small><p>{{ p.medicines }}</p></div>{% endfor %}{% else %}<div class="empty">No prescriptions yet.</div>{% endif %}</section>
+</div>
+{% endblock %}

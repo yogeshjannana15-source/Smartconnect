@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Medicine Reminders — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">MEDICINE CARE</div><h1>Medicine Reminders</h1><p>Use your prescription details as a simple reminder checklist.</p></div></div>
+<div class="reminder-grid">{% for p in prescriptions %}<div class="reminder-card"><div class="reminder-icon">💊</div><h3>{{ p.diagnosis or 'Medicine course' }}</h3><p><b>Doctor:</b> {{ p.doctor_name }}</p><p><b>Duration:</b> {{ p.duration_days }} days from {{ p.start_date }}</p><div class="medicine-text">{{ p.medicines }}</div><div class="notice">{{ p.instructions or 'Follow the prescribed timing and instructions.' }}</div><small>Reminder logic: course completion date is calculated as {{ p.start_date }} + {{ p.duration_days }} days.</small></div>{% else %}<div class="empty">No medicine courses available.</div>{% endfor %}</div>
+{% endblock %}

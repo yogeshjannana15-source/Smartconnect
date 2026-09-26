@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">ADMIN CONTROL CENTER</div><h1>CareConnect Administration</h1><p>Review doctor registrations and manage platform users.</p></div></div>
+<div class="stats-grid"><div class="stat"><b>{{ stats.patients }}</b><span>Patients</span></div><div class="stat"><b>{{ stats.doctors }}</b><span>Doctors</span></div><div class="stat warning"><b>{{ stats.pending }}</b><span>Pending doctor applications</span></div><div class="stat"><b>{{ stats.appointments }}</b><span>Appointments</span></div></div>
+<div class="admin-cards"><a class="admin-card" href="{{ url_for('admin_doctors') }}"><b>👨‍⚕️ Doctor Applications</b><span>Review and verify new doctor accounts.</span></a><a class="admin-card" href="{{ url_for('admin_doctors',status='verified') }}"><b>✓ Verified Doctors</b><span>View approved doctor profiles.</span></a><a class="admin-card" href="{{ url_for('admin_users') }}"><b>👥 Manage Users</b><span>View and remove patient/doctor accounts.</span></a></div>
+{% endblock %}

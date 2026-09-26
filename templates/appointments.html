@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Appointments — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">APPOINTMENTS</div><h1>{{ 'My Appointments' if patient else 'Patient Appointments' }}</h1><p>{{ 'Track and manage your appointments.' if patient else 'Review appointments and update their status.' }}</p></div></div>
+<section class="panel"><div class="table-wrap"><table><tr><th>Appointment</th><th>{{ 'Doctor' if patient else 'Patient' }}</th><th>Date & Time</th><th>Details</th><th>Status</th><th>Action</th></tr>
+{% for a in appointments %}
+<tr><td><b>{{ a.appointment_no }}</b><small>{{ a.reason or 'No reason provided' }}</small></td>
+<td><b>{{ a.doctor_name if patient else a.patient_name }}</b><small>{{ a.specialization if patient else a.patient_phone }}</small></td>
+<td>{{ a.appointment_date }}<br>{{ a.appointment_time }}</td>
+<td>{% if patient %}{{ a.hospital }}<br>{{ a.location }}{% else %}{{ a.patient_email }}{% endif %}</td>
+<td><span class="status {{ a.status|lower }}">{{ a.status }}</span></td>
+<td>{% if patient and a.status=='Booked' %}<form method="post" action="{{ url_for('cancel_appointment',appointment_id=a.id) }}" onsubmit="return confirm('Cancel this appointment?')"><button class="btn btn-danger small">Cancel</button></form>{% elif not patient %}<form method="post" action="{{ url_for('appointment_status',appointment_id=a.id) }}" class="inline-form"><select name="status"><option {% if a.status=='Booked' %}selected{% endif %}>Booked</option><option {% if a.status=='Completed' %}selected{% endif %}>Completed</option><option {% if a.status=='Cancelled' %}selected{% endif %}>Cancelled</option></select><button class="btn btn-outline small">Update</button></form>{% else %}—{% endif %}</td></tr>
+{% else %}<tr><td colspan="6"><div class="empty">No appointments found.</div></td></tr>{% endfor %}</table></div></section>
+{% endblock %}

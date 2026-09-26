@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}CareConnect — Healthcare Made Simple{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">SMART HEALTHCARE PLATFORM</div>
+    <h1>Healthcare that feels <span>simple.</span></h1>
+    <p>Find verified doctors, book appointments, manage prescriptions and keep your medicine information in one place.</p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary btn-lg" href="{{ url_for('register', role='patient') }}">Get Started</a>
+      <a class="btn btn-light btn-lg" href="{{ url_for('doctors') if session.get('role')=='patient' else url_for('login', role='patient') }}">Find a Doctor</a>
+    </div>
+    <div class="hero-stats"><div><b>24/7</b><small>Access</small></div><div><b>Verified</b><small>Doctors</small></div><div><b>Secure</b><small>Accounts</small></div></div>
+  </div>
+  <div class="hero-card">
+    <div class="pulse">♥</div>
+    <h3>Your health, organized</h3>
+    <p>Appointments • Prescriptions • Reminders</p>
+    <div class="mini-row"><span>✓</span> Verified doctors</div>
+    <div class="mini-row"><span>✓</span> Simple booking</div>
+    <div class="mini-row"><span>✓</span> Digital prescriptions</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><div class="eyebrow">OUR SERVICES</div><h2>Everything in one place</h2></div></div>
+  <div class="feature-grid">
+    <div class="feature"><div class="icon">👤</div><h3>Patient Portal</h3><p>Manage your appointments, prescriptions and medicine reminders.</p></div>
+    <div class="feature"><div class="icon">👨‍⚕️</div><h3>Doctor Portal</h3><p>Manage your profile, availability, appointments and prescriptions.</p></div>
+    <div class="feature"><div class="icon">🛡️</div><h3>Admin Control</h3><p>Review doctor applications and manage registered users.</p></div>
+    <div class="feature"><div class="icon">🔔</div><h3>Reminders</h3><p>Keep prescription duration and medicine instructions visible.</p></div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="section-head"><div><div class="eyebrow">VERIFIED CARE</div><h2>Meet our doctors</h2></div><a class="btn btn-outline" href="{{ url_for('doctors') if session.get('role')=='patient' else url_for('login', role='patient') }}">View all</a></div>
+  <div class="doctor-grid">
+  {% for d in doctors %}
+    <div class="doctor-card">
+      <div class="avatar">{{ d.name[4:5] if d.name.startswith('Dr.') else d.name[0:1] }}</div>
+      <h3>{{ d.name }}</h3><span class="tag">{{ d.specialization }}</span>
+      <p>{{ d.qualification }} • {{ d.experience }} years</p>
+      <small>{{ d.hospital }} · {{ d.location }}</small>
+      {% if session.get('role')=='patient' %}<a class="btn btn-primary full" href="{{ url_for('book',doctor_id=d.id) }}">Book appointment</a>{% endif %}
+    </div>
+  {% endfor %}
+  </div>
+</section>
+{% endblock %}

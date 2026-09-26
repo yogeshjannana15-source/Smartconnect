@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}CareConnect{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">+</span> Care<span>Connect</span></a>
+  <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    {% if session.get('role') == 'patient' %}
+      <a href="{{ url_for('patient_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('doctors') }}">Find Doctors</a>
+      <a href="{{ url_for('patient_appointments') }}">Appointments</a>
+      <a href="{{ url_for('patient_prescriptions') }}">Prescriptions</a>
+      <a href="{{ url_for('reminders') }}">Reminders</a>
+    {% elif session.get('role') == 'doctor' %}
+      <a href="{{ url_for('doctor_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('doctor_profile') }}">Profile</a>
+      <a href="{{ url_for('availability') }}">Availability</a>
+      <a href="{{ url_for('doctor_appointments') }}">Appointments</a>
+      <a href="{{ url_for('doctor_prescriptions') }}">Prescriptions</a>
+    {% elif session.get('role') == 'admin' %}
+      <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('admin_doctors') }}">Doctor Applications</a>
+      <a href="{{ url_for('admin_users') }}">Manage Users</a>
+    {% else %}
+      <a href="{{ url_for('register', role='patient') }}">Patient</a>
+      <a href="{{ url_for('register', role='doctor') }}">Doctor</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    {% endif %}
+  </nav>
+  <div class="nav-actions">
+    {% if session.get('user_id') %}
+      <span class="welcome">Hi, {{ session.get('name') }}</span>
+      <a class="btn btn-outline" href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a class="btn btn-outline" href="{{ url_for('login') }}">Login</a>
+      <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-wrap">
+{% for category,message in messages %}
+  <div class="flash {{ category }}"><span>{{ '✓' if category=='success' else '!' }}</span>{{ message }}<button onclick="this.parentElement.remove()">×</button></div>
+{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer>
+  <div><strong>CareConnect</strong><br><small>Healthcare appointment and management demo.</small></div>
+  <div><small>© 2026 CareConnect • For academic/demo use</small></div>
+</footer>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

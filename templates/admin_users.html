@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Manage Users — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">ADMIN</div><h1>Manage Users</h1><p>Registered patient and doctor accounts.</p></div></div>
+<section class="panel"><div class="table-wrap"><table><tr><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>Created</th><th>Action</th></tr>{% for u in users %}<tr><td><b>{{ u.name }}</b></td><td><span class="tag">{{ u.role|title }}</span></td><td>{{ u.email }}</td><td>{{ u.phone }}</td><td>{{ u.created_at[:10] }}</td><td><form method="post" action="{{ url_for('delete_user',user_id=u.id) }}" onsubmit="return confirm('Delete this account?')"><button class="btn btn-danger small">Delete</button></form></td></tr>{% else %}<tr><td colspan="6">No users.</td></tr>{% endfor %}</table></div></section>
+{% endblock %}

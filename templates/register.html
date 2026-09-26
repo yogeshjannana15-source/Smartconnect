@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Register — CareConnect{% endblock %}
+{% block content %}
+<section class="auth-page">
+<div class="auth-card wide">
+  <div class="auth-icon">📝</div>
+  <h1>Create your account</h1><p>Enter correct details. Email and phone are checked before registration.</p>
+  <div class="role-tabs"><a class="{{ 'active' if role=='patient' }}" href="{{ url_for('register',role='patient') }}">Patient</a><a class="{{ 'active' if role=='doctor' }}" href="{{ url_for('register',role='doctor') }}">Doctor</a></div>
+  <form method="post" id="registerForm">
+    <input type="hidden" name="role" value="{{ role }}">
+    <div class="form-grid">
+      <div><label>Full name *</label><input name="name" required minlength="2" placeholder="Enter full name"></div>
+      <div><label>Phone number *</label><input name="phone" id="phone" required maxlength="10" inputmode="numeric" placeholder="10-digit mobile number"><small id="phoneStatus" class="field-status"></small></div>
+      <div><label>Email address *</label><input type="email" name="email" id="email" required placeholder="you@example.com"><small id="emailStatus" class="field-status"></small></div>
+      <div><label>Password *</label><div class="password-wrap"><input type="password" name="password" id="password" required minlength="8" placeholder="Minimum 8 characters"><button type="button" onclick="togglePassword('password',this)">Show</button></div></div>
+      <div><label>Confirm password *</label><input type="password" name="confirm_password" id="confirm_password" required placeholder="Re-enter password"></div>
+    </div>
+    {% if role=='doctor' %}
+    <hr><h3>Doctor professional details</h3>
+    <div class="form-grid">
+      <div><label>Specialization *</label><select name="specialization" required><option value="">Select specialization</option>{% for s in specializations %}<option>{{ s }}</option>{% endfor %}</select></div>
+      <div><label>Qualification *</label><input name="qualification" required placeholder="MBBS / MD / MS etc."></div>
+      <div><label>Experience (years) *</label><input type="number" name="experience" min="0" max="70" required value="0"></div>
+      <div><label>Medical license number *</label><input name="license_no" required placeholder="License / registration number"></div>
+      <div><label>Hospital / Clinic *</label><input name="hospital" required placeholder="Hospital or clinic name"></div>
+      <div><label>Location *</label><input name="location" required placeholder="City / area"></div>
+    </div>
+    <div class="notice">Doctor accounts are not active until an admin verifies the application.</div>
+    {% endif %}
+    <label class="check"><input type="checkbox" required> I confirm that the information entered is correct.</label>
+    <button class="btn btn-primary full btn-lg" type="submit">Create {{ role|title }} Account</button>
+  </form>
+  <p class="auth-bottom">Already registered? <a href="{{ url_for('login',role=role) }}">Login here</a></p>
+</div>
+</section>
+{% endblock %}
+{% block scripts %}<script>setupRegistrationChecks();</script>{% endblock %}

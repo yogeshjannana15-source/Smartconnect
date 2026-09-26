@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions — CareConnect{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">DIGITAL RECORDS</div><h1>My Prescriptions</h1><p>View medicine details and instructions provided by your doctor.</p></div></div>
+<div class="prescription-grid">{% for p in prescriptions %}<article class="prescription"><div class="prescription-top"><div><h3>{{ p.diagnosis or 'Medical Prescription' }}</h3><small>Dr. {{ p.doctor_name }} · {{ p.specialization }}</small></div><span class="tag">{{ p.duration_days }} days</span></div><hr><h4>Medicines</h4><div class="medicine-text">{{ p.medicines }}</div><h4>Instructions</h4><p>{{ p.instructions or 'Follow the doctor’s instructions.' }}</p><small>Started: {{ p.start_date }}</small></article>{% else %}<div class="empty">No prescriptions available.</div>{% endfor %}</div>
+{% endblock %}
